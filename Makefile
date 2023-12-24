@@ -27,11 +27,11 @@ PARSING_SRCS	= $(addprefix $(PARSING_DIR), $(_PARSING_SRCS))
 
 INIT_DIR	= srcs/init/
 
-_INIT_SRCS	=	init_vars_info.c	\
-				init_vars.c			\
+
+_INIT_SRCS	=	init_vars.c			\
 				init_background.c	\
-				load_texture.c		\
-				img_xpm_set.c		\
+				img_xpm_set.c		
+#init_vars_info.c load_texture.c
 
 
 INIT_SRCS	= $(addprefix $(INIT_DIR), $(_INIT_SRCS))
@@ -50,11 +50,9 @@ NO_INIT_SRCS	= $(addprefix $(NO_INIT_DIR), $(_NO_INIT_SRCS))
 
 EVENT_DIR	= srcs/event/
 
-_EVENT_SRCS	= check_key_and_mouse.c		\
-			  check_key_and_mouse2.c	\
-			  event_function1.c			\
+_EVENT_SRCS	= event_function1.c			\
 			  event_function2.c			\
-			  key_event.c				\
+#key_event.c				\
 			  manage_monster.c			\
 			  kill_monster.c			\
 			  mouse_event.c				\
@@ -67,7 +65,9 @@ _EVENT_SRCS	= check_key_and_mouse.c		\
 			  mini_map_expan.c 			\
 			  mini_map.c				\
 			  sprite.c					\
-			  sprite2.c \
+			  sprite2.c 
+#check_key_and_mouse.c	\
+check_key_and_mouse2.c	
 
 _NO_EVENT_SRCS	= check_key_and_mouse.c		\
 			  check_key_and_mouse2.c	\

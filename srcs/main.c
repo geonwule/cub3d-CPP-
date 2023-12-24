@@ -53,13 +53,13 @@ static void	talk_npc_agree(t_vars *vars)
 {
 	vars->data.npc_talk = 0;
 	vars->data.quest_num = 1;
-	mlx_mouse_hide();
+	// mlx_mouse_hide();
 }
 
 static void	talk_npc_negative(t_vars *vars)
 {
 	vars->data.npc_talk = 0;
-	mlx_mouse_hide();
+	// mlx_mouse_hide();
 }
 
 void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
@@ -86,7 +86,7 @@ void cursor_position_callback(GLFWwindow *window, double xpos, double ypos)
 {
 	// 마우스 이동 이벤트 처리 로직
 	if (vars.data.npc_talk)
-		return (0);
+		return;
 	// vars.data.mouse_old_x = vars.data.mouse_x;
 	// vars.data.mouse_old_y = vars.data.mouse_y;
 	vars.data.mouse_x = xpos;
@@ -129,7 +129,8 @@ int main(int ac, char **av)
 		return (RETURN_FAILURE);
 	}
 	glfwMakeContextCurrent(vars.g_win);
-	init_vars_info(&vars);
+	
+	// init_vars_info(&vars);
 
 	// GLFW 이벤트 핸들러 등록
 	glfwSetKeyCallback(vars.g_win, key_callback);
@@ -144,7 +145,7 @@ int main(int ac, char **av)
 		glfwSwapBuffers(vars.g_win);
 		glfwPollEvents();
 
-		rendering(&vars);
+		// rendering(&vars);
 	}
 
 	// GLFW 정리
