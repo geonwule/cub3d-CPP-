@@ -12,25 +12,91 @@
 
 #include "cub3d.h"
 
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+t_vars vars;
+
+void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
-    // 키 이벤트 처리 로직
+	// 키 이벤트 처리 로직
+	t_info *info;
+	char **map;
+
+	info = &vars.info;
+	map = vars.map.arr;
+	if (key == GLFW_KEY_P)
+		reset_game(&vars);
+	if (vars.data.npc_talk)
+		return ;
+	if (key >= 0 && key <= 255)
+		vars.data.keyboard[key] = 1;
+	if (key == GLFW_KEY_N || key == GLFW_KEY_M)
+		adjust_gamespeed(info, key);
+	if (key == GLFW_KEY_SPACE)
+		attack(&vars);
+	if (key == GLFW_KEY_Q)
+		turn_back(info);
+	if (key == GLFW_KEY_B)
+		open_door_tell_npc(&vars, map);
+	if (key == GLFW_KEY_R)
+		return_ellinia(&vars);
+	if (key == GLFW_KEY_TAB)
+		change_mini_map(&vars);
+	return ;
 }
 
-void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+static void	player_resurrection(t_vars *vars)
 {
-    // 마우스 버튼 이벤트 처리 로직
+	reset_game(vars);
+	vars->data.dead_check = 0;
 }
 
-void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+static void	talk_npc_agree(t_vars *vars)
 {
-    // 마우스 이동 이벤트 처리 로직
+	vars->data.npc_talk = 0;
+	vars->data.quest_num = 1;
+	mlx_mouse_hide();
 }
 
+static void	talk_npc_negative(t_vars *vars)
+{
+	vars->data.npc_talk = 0;
+	mlx_mouse_hide();
+}
+
+void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
+{
+	double x, y;
+    glfwGetCursorPos(window, &x, &y);
+	// 여기서 x와 y는 마우스 클릭 지점의 좌표입니다.
+    // 이제 이 좌표를 이용하여 원하는 작업을 수행할 수 있습니다
+
+	// 마우스 버튼 이벤트 처리 로직
+
+	if (vars.data.dead_check && x >= 800 && x <= 860 && y >= 380 && y <= 400)
+		player_resurrection(&vars);
+	else if (vars.data.npc_talk && vars.data.quest_num == 0 && x >= 800 && x <= 850 && y >= 420 && y <= 435)
+		talk_npc_agree(&vars);
+	else if (vars.data.npc_talk && ((x >= 870 && x <= 920 && y >= 420 && y <= 435) || (x >= 435 && x <= 510 && y >= 420 && y <= 435)))
+		talk_npc_negative(&vars);
+	else if (button == 1 && vars.data.dead_check == 0 && !vars.data.npc_talk)
+		attack(&vars);
+	return ;
+}
+
+void cursor_position_callback(GLFWwindow *window, double xpos, double ypos)
+{
+	// 마우스 이동 이벤트 처리 로직
+	if (vars.data.npc_talk)
+		return (0);
+	// vars.data.mouse_old_x = vars.data.mouse_x;
+	// vars.data.mouse_old_y = vars.data.mouse_y;
+	vars.data.mouse_x = xpos;
+	vars.data.mouse_y = ypos;
+	return ;
+}
 
 int main(int ac, char **av)
 {
-	t_vars vars;
+	// t_vars vars;
 
 	if (ac != 2)
 	{
@@ -41,7 +107,10 @@ int main(int ac, char **av)
 	init_vars(&vars);
 	read_file(&vars, av[1]);
 
+	//glfw에서는 mlx 포인터를 갖고다닐 필요 없음
 	// vars.mlx = mlx_init();
+
+	// win 포인터도 갖고다닐 필요 없을듯?
 	// vars.win = mlx_new_window(vars.mlx, WIN_WIDTH, WIN_HEIGHT, "cub3d");
 
 	// GLFW 초기화
@@ -74,6 +143,8 @@ int main(int ac, char **av)
 
 		glfwSwapBuffers(vars.g_win);
 		glfwPollEvents();
+
+		rendering(&vars);
 	}
 
 	// GLFW 정리
