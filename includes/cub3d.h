@@ -1,0 +1,191 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: geonwule <geonwule@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/30 17:19:21 by geonwule          #+#    #+#             */
+/*   Updated: 2023/07/17 12:30:36 by geonwule         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef CUB3D_H
+# define CUB3D_H
+
+#include <GLFW/glfw3.h>
+# include "../Libft/libft.h"
+# include "../mlx_opengl/mlx.h"
+# include "define.h"
+# include "structure.h"
+# include <fcntl.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <math.h>
+# include <time.h>
+# include <sys/time.h>
+# include <string.h>
+
+// init/init_vars_info.c
+int		init_vars_info(t_vars *vars);
+
+// init/init_vars.c
+void	init_vars(t_vars *vars);
+
+// init/load_texture.c
+void	load_texture(t_vars *vars, t_info *info);
+
+// init/img_xpm_set.c
+void	img_xpm_set(t_vars *vars);
+
+//	init/init_background.c
+void	fill_background(t_vars *vars, int ceiling[3], int floor[3]);
+
+// event/check_key_and_mouse.c
+int		can_move(t_vars *vars, int x, int y);
+void	check_key_and_mouse(t_vars *vars);
+
+// event/check_key_and_mouse2.c
+void	move_forward_backward(t_vars *vars, t_info *info, double move_speed);
+void	move_left_right(t_vars *vars, t_info *info, double move_speed);
+void	rotate_left(t_info *info, double rot_speed);
+void	rotate_right(t_info *info, double rot_speed);
+void	rotate_up(t_info *info, double rot_speed);
+void	rotate_down(t_info *info, double rot_speed);
+
+// event/event_function1.c
+void	change_mini_map(t_vars *vars);
+void	attack(t_vars *vars);
+void	reset_game(t_vars *vars);
+
+// event/event_function2.c
+void	return_ellinia(t_vars *vars);
+void	open_door_tell_npc(t_vars *vars, char **map);
+void	adjust_gamespeed(t_info *info, int keycode);
+void	turn_back(t_info *info);
+
+// event/key_event.c
+int		key_release(int keycode, t_vars *vars);
+int		key_press(int keycode, t_vars *vars);
+
+// event/manage_monster.c
+void	manage_monster(t_vars *vars);
+
+// event/kill_monster.c
+void	kill_monster(t_vars *vars, t_info *info, char **map);
+
+// event/mouse_event.c
+int		handle_mouse_button(int button, int x, int y, void *args);
+int		handle_mouse_move(int x, int y, void *args);
+
+// event/print_window1.c
+void	print_window1(t_vars *vars);
+
+// event/print_window2.c
+void	print_window2(t_vars *vars);
+
+// event/ray_casting.c
+void	ray_casting(t_vars *vars, t_info *info, char **map);
+
+// event/ray_function.c
+void	init_ray(t_info *info, t_ray *ray, int x);
+void	check_ray_dir(t_info *info, t_ray *ray);
+void	check_ray_texture(t_info *info, t_ray *ray, char **map);
+void	apply_texture(t_info *info, t_ray *ray, int x, int y);
+
+// event/ray_function_dda.c
+void	dda(t_vars *vars, char **map, t_ray *ray);
+
+// event/sprite.c
+void	sprite(t_vars *vars);
+
+// event/sprite2.c
+int		*sort_sprite(t_vars *vars, t_info *info, t_sp *sprite);
+void	calculate_sprite(t_vars *vars, t_info *info, int idx, t_sprite *sprite);
+
+// event/rendering.c
+int		rendering(t_vars *vars);
+
+// event/mini_map_expan.c
+void	fill_mini_back_expan(t_vars *vars);
+void	fill_minimap_expan(t_vars *vars, char **map);
+
+// event/mini_map.c
+void	mini_map(t_vars *vars);
+
+// get_next_line
+char	*get_next_line(int fd);
+size_t	ft_strlen_gnl(const char *s);
+char	*ft_strdup_gnl(const char *s1, char *back);
+char	*ft_strchr_gnl(const char *s, int c);
+size_t	ft_strlcpy_gnl(char *dst, const char *src, size_t dstsize);
+char	*ft_strjoin_gnl(char const *s1, char const *s2);
+
+// test/print.c
+void	print_texture(t_vars *vars);
+void	print_color(t_vars *vars);
+void	print_arr_2d(char **arr);
+void	print_lst(t_list *head);
+
+// utils/print_error.c
+void	print_error(char *str, t_vars *vars);
+
+// utils/free.c
+void	free_arr_2d(char ***arr);
+void	free_map(t_map *map);
+void	free_lst(t_list **head);
+
+// utils/alloc_copy_str.c
+char	*allocate_and_copy_string(char *src);
+
+// utils/size_arr_2d.c
+int		size_arr_2d(char **arr);
+
+// utils/random_generator.c
+int		random_generator(int frequency);
+
+// utils/ft_malloc.c
+void	*ft_malloc(size_t size);
+
+// utils/ft_open.c
+int		ft_open(char *file_path);
+
+// utils/free_vars.c
+void	free_vars(t_vars *vars);
+
+// utils/exit_game.c
+int		exit_game(t_vars *vars);
+
+// utils/ft_get_data_addr.c
+char	*ft_get_data_addr(void *img_ptr, int *bits, int *size, int *end);
+
+// utils/ft_xpm_file_to_image.c
+void	*ft_xpm_file_to_image(void *mlx_ptr, char *path, int *w, int *h);
+
+// parsing/check.c
+void	check_file(t_vars *vars, char *path);
+int		check_texture(char *line);
+int		check_color(char *line);
+
+// parsing/read_file.c
+void	read_file(t_vars *vars, char *path);
+
+// parsing/set.c
+int		set_texture(char **arr, t_vars *vars);
+int		set_map(t_vars *vars, int fd, char *line);
+
+// parsing/set_color.c
+int		set_color(char **arr, t_vars *vars);
+
+// parsing/check_map.c
+int		check_map(t_vars *vars);
+
+// parsing/check_map2.c
+void	init_dir_plane_ns(t_vars *vars, char type);
+void	init_dir_plane_ew(t_vars *vars, char type);
+
+// parsing/set_color_utils.c
+int		ft_atoi_color(const char *str);
+
+#endif
