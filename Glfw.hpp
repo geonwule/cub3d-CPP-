@@ -16,6 +16,8 @@ private:
     Glfw &operator=(const Glfw &other);
 
     GLFWwindow *window;
+    GLuint img_texture;
+    // float vertices[]; // 정점 좌표와 텍스처 좌표
 
 public:
     Glfw();
@@ -24,6 +26,8 @@ public:
     void _glfwInit();
     void _glfwEventRegister();
     void _glfwRederingLoop();
+
+    void rendering();
 };
 
 #endif

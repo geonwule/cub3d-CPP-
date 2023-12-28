@@ -30,3 +30,26 @@ static void cursor_position_callback(GLFWwindow *window, double xpos, double ypo
 {
     std::cout << "Mouse position: (" << xpos << ", " << ypos << ")" << std::endl;
 }
+
+static GLuint loadTexture(const char* path) {
+    int width, height, channels;
+    unsigned char* data = stbi_load(path, &width, &height, &channels, 4);
+
+    if (!data) {
+        std::cerr << "Failed to load image: " << path << std::endl;
+        return 0;
+    }
+
+    GLuint textureID;
+    glGenTextures(1, &textureID);
+    glBindTexture(GL_TEXTURE_2D, textureID);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    stbi_image_free(data);
+
+    return textureID;
+}
