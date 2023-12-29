@@ -11,9 +11,9 @@ SRCS = main.cpp Glfw.cpp
 
 OBJS = ${SRCS:.cpp=.o}
 
-CXX = c++
+CXX = c++ -g3
 
-CFLAGS = -I/$(HOME)/.brew/Cellar/glfw/3.3.9/include
+CFLAGS = -I/$(HOME)/.brew/Cellar/glfw/3.3.9/include -std=c++11
 #cluster for mac
 #-I/$(HOME)/.brew/Cellar/glfw/3.3.9/include
 #-Wall -Wextra -Werror
@@ -51,7 +51,7 @@ ${NAME} : ${OBJS} ${HEAD}
 	@echo "$(GREEN)cpp_cub3d compiled!$(DEF_COLOR)"
 
 debug : ${SRCS}
-	${CXX} ${D_FLAGS} $^ -o ${NAME} 
+	${CXX} ${D_FLAGS} ${CFLAGS} $^ -o ${NAME} ${GLFW_FLAGS}
 #	-I${HEAD}
 	@echo "$(GREEN)cpp_cub3d debug compiled!$(DEF_COLOR)"
 

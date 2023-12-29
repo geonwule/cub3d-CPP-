@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <GLFW/glfw3.h>
+#include <vector>
 
 using namespace std;
 
@@ -17,6 +18,9 @@ private:
 
     GLFWwindow *window;
     GLuint img_texture;
+
+    std::vector<GLuint> g_texture;
+    std::vector<std::vector<int> > mapData;
     // float vertices[]; // 정점 좌표와 텍스처 좌표
 
 public:
