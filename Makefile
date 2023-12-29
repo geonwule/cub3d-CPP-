@@ -13,10 +13,16 @@ OBJS = ${SRCS:.cpp=.o}
 
 CXX = c++
 
-CFLAGS = 
-#-Wall -Wextra -Werror 
+CFLAGS = -I/$(HOME)/.brew/Cellar/glfw/3.3.9/include
+#cluster for mac
+#-I/$(HOME)/.brew/Cellar/glfw/3.3.9/include
+#-Wall -Wextra -Werror
 
-GLFW_FLAGS = -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl
+GLFW_FLAGS = -L$(HOME)/.brew/Cellar/glfw/3.3.9/lib -lglfw -framework OpenGL
+#cluster for mac
+#-L$(HOME)/.brew/Cellar/glfw/3.3.9/lib -lglfw -framework OpenGL
+#home for linux
+#-lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl
 
 D_FLAGS = -g3
 #-fsanitize=address
